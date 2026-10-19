@@ -1,0 +1,14 @@
+{
+  "id": "KMP-CSMQ-45K0W",
+  "full_hash": "sha256:ba15f5416a1d39a118af186d5ae4f0ca1f7d2a1543e0afb8ff3d673e41d785b5",
+  "requirements": "specs/shelf-rail-right.yaml",
+  "canonical": "{\"class\":\"case-shelf-rail\",\"parameters\":{\"angle_leg_mm\":50,\"angle_t_mm\":2,\"brace_hole_d_mm\":5.5,\"brace_holes_from_heel_mm\":25,\"brace_holes_from_rear_mm\":[12.5,37.5],\"case_d_mm\":368,\"case_w_mm\":368,\"channel_y_mm\":[8,26.5],\"end_clear_mm\":0.5,\"entry_slot_z_mm\":[-71.5,-51.5],\"front_margin_mm\":22.5,\"hand\":\"right\",\"pocket_end_z_mm\":46,\"rear_overhang_mm\":50,\"rib_front_z_mm\":-71.5,\"rib_t_mm\":2.5,\"roller_spacing_mm\":135,\"side_gap_mm\":0.5,\"tap_drill_mm\":4.2},\"scheme\":\"pn/1\",\"uses\":{\"roller\":\"YYY-V00T-MDAXM\",\"screw\":\"YAQ-Q2SV-WQ8B5\",\"spacer\":\"PVQ-AHQ6-SPD1G\"}}",
+  "uses": {
+    "roller": "YYY-V00T-MDAXM",
+    "spacer": "PVQ-AHQ6-SPD1G",
+    "screw": "YAQ-Q2SV-WQ8B5"
+  },
+  "outputs": {
+    "parts/Shelf_Rail_R.SLDPRT": "be6052e026c38543cc3b224ceda172db445dce6d"
+  }
+}

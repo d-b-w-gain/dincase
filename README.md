@@ -42,6 +42,20 @@ Every part number is a hash of the part's build inputs (see
 | `NGZ-D4Y4-CH3ZG` | Nesting Guide Z-rail | Mounting angle | Steel, 2 off ([drawing](drawings/Mount_Angle.PDF)) |
 | `YAQ-Q2SV-WQ8B5` | Yaw-Arresting Quoin | M5 x 12 button head screw | Buy, 6 off |
 
+### In progress: pull-out shelf (draft, not released)
+
+Handed side rails that run 50 mm past the back of the case, so a rear
+cross brace can bolt through their base legs and the pair can ride on
+slides as a pull-out shelf. Same rollers, lock screw and case interface as
+the mounting angle.
+
+| Part number | Part | Make |
+|---|---|---|
+| `ZKM-91RV-KHZYH` | Shelf rail, left hand | Steel ([drawing](drawings/Shelf_Rail.PDF)) |
+| `KMP-CSMQ-45K0W` | Shelf rail, right hand | Steel, mirror image |
+
+Built by `build_shelf_rail.py`; fit check in `Dincase_Shelf.SLDASM`.
+
 ### Printing the rollers and spacers
 
 [stl/Track_Roller.STL](stl/Track_Roller.STL) and

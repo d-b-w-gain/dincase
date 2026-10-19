@@ -1,0 +1,38 @@
+scheme: pn/1
+class: case-shelf-rail
+name: dincase shelf rail, right hand (draft)
+description: >-
+  Side rail for a sliding dincase shelf. Same roller, lock-screw and case
+  interface as the mounting angle, but the rail runs 50 mm past the
+  back of the case so a rear cross brace can sit on the base legs and bolt
+  through them. Handed: left and right are mirror images.
+uses:
+  roller: YYY-V00T-MDAXM
+  spacer: PVQ-AHQ6-SPD1G
+  screw: YAQ-Q2SV-WQ8B5
+parameters:
+  hand: right
+  case_w_mm: 368
+  case_d_mm: 368
+  channel_y_mm: [8.0, 26.5]       # track channel, up from the case bottom
+  pocket_end_z_mm: 46.0           # closed front end of the front pocket
+  rib_front_z_mm: -71.5           # rib between the pockets
+  rib_t_mm: 2.5
+  entry_slot_z_mm: [-71.5, -51.5] # lip-free entry of the front pocket
+  end_clear_mm: 0.5               # front roller to pocket end when locked
+  roller_spacing_mm: 135
+  angle_leg_mm: 50
+  angle_t_mm: 2.0
+  front_margin_mm: 22.5           # front roller hole to front end
+  rear_overhang_mm: 50            # rail past the back of the case
+  side_gap_mm: 0.5                # upright to case side
+  tap_drill_mm: 4.2               # M5 x 0.8, rollers and lock screw
+  brace_hole_d_mm: 5.5            # M5 clearance, rear cross brace bolts
+  brace_holes_from_rear_mm: [12.5, 37.5]
+  brace_holes_from_heel_mm: 25
+appearance:
+  colour: [0.62, 0.64, 0.66]
+files:
+  - build_shelf_rail.py
+  - build_mount.py
+  - swkit.py
