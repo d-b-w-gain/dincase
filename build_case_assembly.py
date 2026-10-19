@@ -55,7 +55,24 @@ BASE_DRAFT_DEG = 2.0
 LID_DRAFT_DEG = 2.0
 LID_STEP = 1.5          # lid outside beyond base outside at the seam, a side
 TRACK_TOP = 30.0        # below this the side walls step in round the tracks
-TRACK_DEPTH = 10.0      # side track depth (Cut-Extrude5)
+TRACK_DEPTH = 10.0      # side track depth (Cut-Extrude5), from the local wall
+TRACK_MID_Y = 17.25     # track depth is set from the wall at this height
+# Side lock track regions, from the master's Sketch6 (y up from the case
+# bottom, z measured forward from the case's back face). Re-cut into the
+# drafted wall so the depth and the full 2.5 mm lips are kept. The small
+# R1 edge fillets of the master are not reproduced.
+# Each outline is (y, z) points; outlines must not touch each other.
+TRACK_OUTLINES = [
+    # Recess under the lips, the front pocket and its lip-free entry slot,
+    # as one outline: the front pocket's lip (y 5.5-8, z 132.5-230) is the
+    # notch it goes round.
+    [(0.0, 2.5), (0.0, 230.0), (5.5, 230.0), (5.5, 132.5), (8.0, 132.5),
+     (8.0, 230.0), (26.5, 230.0), (26.5, 112.5), (5.5, 112.5), (5.5, 2.5)],
+    # Rear pocket, open at the back of the case.
+    [(8.0, -1.0), (8.0, 110.0), (26.5, 110.0), (26.5, -1.0)],
+]
+TRACK_FILL_TOP = 28.0   # master track (with fillets) is filled up to here
+BASE_SEAM = None        # set from the master's height in main()
 
 # Hinge (back edge, on the seam)
 KNUCKLE_R = 5.0
@@ -140,9 +157,82 @@ def hinge(k, W, D, seam, mine, hole_d):
 
 
 def latch_zone(W, D):
-    xs = W / 2
+    """Latch centre z, and xs: the local outside wall at the latch, which
+    the recesses and the latch are seated relative to."""
+    xs = W / 2 - base_inset(BASE_SEAM - LATCH_BELOW / 2)
     zc = D / 2 - LATCH_FROM_FRONT
     return xs, zc
+
+
+def base_inset(y):
+    """How far the drafted base's outside wall sits in from the master
+    envelope (the lid's size) at height y."""
+    import math
+    return LID_STEP + (BASE_SEAM - y) * math.tan(math.radians(BASE_DRAFT_DEG))
+
+
+_CUT_FLAGS = {}
+
+
+def probe_draft_flags(sw):
+    """SolidWorks' 'reverse direction' / 'draft outward' flags are easy to
+    get backwards, so learn them once on a throwaway block: for a sketch on
+    a Top-parallel plane, which flags cut DOWN / UP with the pocket getting
+    NARROWER as it goes deeper (a moulded cavity)."""
+    import math
+    for way in ("down", "up"):
+        for rev in (False, True):
+            for out in (False, True):
+                model = new_part(sw)
+                k = Kit(sw, model)
+                k.sketch(k.yplane(25))
+                k.box("y", -50, 50, -50, 50, 25)
+                k.boss(50)                                  # y 0..50
+                v0 = model.Extension.CreateMassProperty.Volume
+                y = 50 if way == "down" else 0
+                k.sketch(k.yplane(y) if y else k.top)
+                k.box("y", -30, 30, -30, 30, y)
+                ok = _cut_draft(model, 30, rev, out, 10.0)
+                v1 = model.Extension.CreateMassProperty.Volume
+                sw.CloseDoc(model.GetTitle)
+                if not ok:
+                    continue
+                removed = (v0 - v1) * 1e9
+                a1, a2 = 60.0 ** 2, (60 - 2 * 30 * math.tan(math.radians(10))) ** 2
+                inward = 30 / 3 * (a1 + a2 + math.sqrt(a1 * a2))
+                if abs(removed - inward) < 0.01 * inward:
+                    _CUT_FLAGS[way] = (rev, out)
+                    break
+            if way in _CUT_FLAGS:
+                break
+        if way not in _CUT_FLAGS:
+            raise RuntimeError("could not find drafted-cut flags (%s)" % way)
+    print("  drafted-cut flags:", _CUT_FLAGS)
+
+
+def _cut_draft(model, depth, rev, out, angle_deg):
+    import math
+    from swkit import m as _m
+    model.SketchManager.InsertSketch(True)
+    sk = model.FeatureByPositionReverse(0)
+    model.ClearSelection2(True)
+    sk.Select2(False, 0)
+    f = model.FeatureManager.FeatureCut4(
+        True, False, rev, 0, 0, _m(depth), 0, True, False, out, False,
+        math.radians(angle_deg), 0, False, False, False, False, False, True,
+        True, True, True, False, 0, 0, False, False)
+    model.ClearSelection2(True)
+    return f is not None
+
+
+def drafted_pocket(k, y, half_x, half_z, depth, way, angle_deg):
+    """Moulded cavity: rectangle at height y, cut `depth` down or up,
+    getting narrower with depth by `angle_deg` on every wall."""
+    k.sketch(k.yplane(y) if y else k.top)
+    k.box("y", -half_x, half_x, -half_z, half_z, y)
+    rev, out = _CUT_FLAGS[way]
+    if not _cut_draft(k.model, depth, rev, out, angle_deg):
+        raise RuntimeError("drafted pocket failed")
 
 
 def draft_walls(k, W, D, y_lo, y_hi, inset_at, angle_deg):
@@ -175,30 +265,45 @@ def build_base(sw, W, H, D):
     k.box("y", -W, W, -D, D, seam + 50)
     k.cut(100)
 
+    # Fill the master's side tracks: they are re-cut below, from the
+    # drafted wall, so they keep their depth and full lips.
+    for sd in (-1, 1):
+        x0 = W / 2 - TRACK_DEPTH - 1
+        k.sketch(k.xplane(sd * (x0 + W / 2) / 2))
+        k.box("x", 0, TRACK_FILL_TOP, -D / 2, D / 2, 0)
+        k.boss(W / 2 - x0)
+
     # Draft: set in by LID_STEP at the seam, more towards the bottom.
     draft_walls(k, W, D, -1, seam,
                 lambda y, t: LID_STEP + (seam - y) * t, BASE_DRAFT_DEG)
 
-    # Hollow: narrow round the tracks, wider above them.
-    k.sketch(k.yplane((WALL + TRACK_TOP) / 2))
-    i = W / 2 - TRACK_DEPTH - WALL
-    k.box("y", -i, i, -D / 2 + WALL, D / 2 - WALL, 0)
-    k.cut(TRACK_TOP - WALL)
-    k.sketch(k.yplane((TRACK_TOP + seam) / 2 + 1))
-    k.box("y", -W / 2 + WALL, W / 2 - WALL, -D / 2 + WALL, D / 2 - WALL, 0)
-    k.cut(seam - TRACK_TOP + 2)
+    # Side lock tracks, TRACK_DEPTH into the drafted wall.
+    floor = W / 2 - base_inset(TRACK_MID_Y) - TRACK_DEPTH
+    for sd in (-1, 1):
+        k.sketch(k.xplane(sd * (floor + W / 2 + 2) / 2))
+        for outline in TRACK_OUTLINES:
+            k.poly([(0, y, -D / 2 + z) for y, z in outline])
+        k.cut(W / 2 + 2 - floor)
 
-    # Backing blocks behind the latch recesses.
+    # Hollow, moulded: walls drafted parallel to the outside. Below
+    # TRACK_TOP the sides step in behind the tracks.
+    drafted_pocket(k, seam, W / 2 - LID_STEP - WALL, D / 2 - LID_STEP - WALL,
+                   seam - TRACK_TOP, "down", BASE_DRAFT_DEG)
+    k.sketch(k.yplane((WALL + TRACK_TOP) / 2))
+    zi = D / 2 - base_inset(TRACK_TOP) - WALL
+    k.box("y", -(floor - WALL), floor - WALL, -zi, zi, 0)
+    k.cut(TRACK_TOP - WALL)
+
+    # Backing blocks behind the latch recesses (reach into the wall).
     k.sketch(k.yplane((TRACK_TOP + seam) / 2))
     for s in (-1, 1):
-        k.box("y", s * (xs - WALL - 10.5), s * (xs - WALL), zc - 20, zc + 20,
-              0)
+        k.box("y", s * (xs - WALL - 10.5), s * xs, zc - 20, zc + 20, 0)
     k.boss(seam - TRACK_TOP)
 
-    # Latch recesses + pivot holes.
+    # Latch recesses, seated into the drafted wall, + pivot holes.
     k.sketch(k.yplane(seam - (LATCH_BELOW + 2) / 2))
     for s in (-1, 1):
-        k.box("y", s * (xs - RECESS_DEPTH), s * (xs + 1),
+        k.box("y", s * (xs - RECESS_DEPTH), s * (W / 2 + 1),
               zc - LATCH_W / 2 - 2, zc + LATCH_W / 2 + 2, 0)
     k.cut(LATCH_BELOW + 2)
     k.sketch(k.right)
@@ -242,21 +347,18 @@ def build_lid(sw, W, H, D):
     draft_walls(k, W, D, seam, H + 1,
                 lambda y, t: (y - seam) * t, LID_DRAFT_DEG)
 
-    # Hollow, open to the seam.
-    top = H - WALL
-    k.sketch(k.yplane((seam + top) / 2 - 1))
-    k.box("y", -W / 2 + WALL, W / 2 - WALL, -D / 2 + WALL, D / 2 - WALL, 0)
-    k.cut(top - seam + 2)
+    # Hollow, moulded: open to the seam, walls drafted parallel outside.
+    drafted_pocket(k, seam, W / 2 - WALL, D / 2 - WALL, H - WALL - seam,
+                   "up", LID_DRAFT_DEG)
 
-    # Backing blocks, then the catch recess and the hook slot.
+    # Backing blocks (reach into the wall), then the catch recess and slot.
     k.sketch(k.yplane(seam + 6))
     for s in (-1, 1):
-        k.box("y", s * (xs - WALL - 10.5), s * (xs - WALL), zc - 20, zc + 20,
-              0)
+        k.box("y", s * (xs - WALL - 10.5), s * W / 2, zc - 20, zc + 20, 0)
     k.boss(12)
     k.sketch(k.yplane(seam + (LATCH_ABOVE + 1) / 2))
     for s in (-1, 1):
-        k.box("y", s * (xs - RECESS_DEPTH), s * (xs + 1),
+        k.box("y", s * (xs - RECESS_DEPTH), s * (W / 2 + 1),
               zc - LATCH_W / 2 - 2, zc + LATCH_W / 2 + 2, 0)
     k.cut(LATCH_ABOVE + 1)
     k.sketch(k.yplane(seam + 5.5))
@@ -348,7 +450,10 @@ def main():
         raise SystemExit("%s exists - delete it to rebuild."
                          % os.path.basename(ASM_PATH))
     W, H, D = master_size(sw)
+    global BASE_SEAM
+    BASE_SEAM = H - LID_H
     print("Master %d W x %d H x %d D, seam at %.1f" % (W, H, D, H - LID_H))
+    probe_draft_flags(sw)
 
     built = []
     for name, fn in [("base", build_base), ("lid", build_lid),
