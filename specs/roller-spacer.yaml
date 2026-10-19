@@ -1,0 +1,21 @@
+id: PVQ-AHQ6-SPD1G
+full_hash: sha256:7c8712528a7333ab9a43d1f69d044e120dc51d94c8ba5808dbba5b55a994bd06
+scheme: pn/1
+class: journal-spacer
+name: Roller journal spacer, M5
+nickname: "Pivot, Very Quiet"
+description: >-
+  3D-printed sleeve the track roller turns on; the M5 screw clamps the
+  spacer, not the roller, to the angle. Bore is the M5 tap drill: tap it M5
+  or drill 5.0-5.5 for clearance. Size follows the roller it carries.
+uses:
+  roller: YYY-V00T-MDAXM
+parameters:
+  running_fit_mm: 0.4     # diametral, roller bore over spacer
+  bore_d_mm: 4.2          # M5 tap drill
+  bed_chamfer_mm: 0.4
+appearance:
+  colour: [0.60, 0.60, 0.60]
+files:
+  - build_roller.py
+  - swkit.py

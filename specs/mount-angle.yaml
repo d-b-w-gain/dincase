@@ -1,0 +1,36 @@
+id: NGZ-D4Y4-CH3ZG
+full_hash: sha256:caa23de37318e9ff7ca2809805a71ae4aa0546824f5d5ca77387f017c8c650fb
+scheme: pn/1
+class: case-mount-rail
+name: RolaCase mounting angle, 2 rollers + lock screw
+nickname: "Nesting Guide Z-rail"
+description: >-
+  Steel angle under one side of a RolaCase-style case, carrying two track
+  rollers (one per lock pocket) and an M5 locking screw whose thread bears
+  on the rib between the pockets. Identical part both sides: the lock hole
+  is mirrored near both ends.
+uses:
+  roller: YYY-V00T-MDAXM
+  spacer: PVQ-AHQ6-SPD1G
+  screw: YAQ-Q2SV-WQ8B5
+parameters:
+  case_w_mm: 368
+  channel_y_mm: [8.0, 26.5]       # track channel, up from the case bottom
+  pocket_end_z_mm: 46.0           # closed front end of the front pocket
+  rib_front_z_mm: -71.5           # rib between the pockets
+  rib_t_mm: 2.5
+  entry_slot_z_mm: [-71.5, -51.5] # lip-free entry of the front pocket
+  end_clear_mm: 0.5               # front roller to pocket end when locked
+  roller_spacing_mm: 135
+  angle_leg_mm: 50
+  angle_t_mm: 2.0
+  angle_end_margin_mm: 22.5       # roller holes from each end
+  side_gap_mm: 0.5                # upright to case side
+  tap_drill_mm: 4.2               # M5 x 0.8
+appearance:
+  colour: [0.62, 0.64, 0.66]
+capabilities:
+  case_w_mm: [368, 368]
+files:
+  - build_mount.py
+  - swkit.py

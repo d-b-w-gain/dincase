@@ -1,0 +1,13 @@
+{
+  "id": "YYY-V00T-MDAXM",
+  "full_hash": "sha256:0ced3af514f31cb798d8c2dfb715ea40d23b53277e26433a325dfe2b8abc8aa4",
+  "requirements": "specs/track-roller.yaml",
+  "canonical": "{\"class\":\"track-roller\",\"parameters\":{\"bed_chamfer_mm\":0.4,\"bore_d_mm\":8,\"cbore_d_mm\":11,\"head_below_top_mm\":0.2,\"side_clear_mm\":0.5,\"spin_gap_mm\":0.3,\"top_clear_mm\":1,\"track_depth_mm\":10,\"track_w_mm\":18.5},\"scheme\":\"pn/1\",\"uses\":{\"screw\":\"YAQ-Q2SV-WQ8B5\"}}",
+  "uses": {
+    "screw": "YAQ-Q2SV-WQ8B5"
+  },
+  "outputs": {
+    "parts/Track_Roller.SLDPRT": "8422def32c99b72cbf7bcabcf60c9d52ff416462",
+    "stl/Track_Roller.STL": "7413f94b5334437420af3de3960e4219ad7bdd47"
+  }
+}

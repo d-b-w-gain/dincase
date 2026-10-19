@@ -1,0 +1,31 @@
+id: YYY-V00T-MDAXM
+full_hash: sha256:0ced3af514f31cb798d8c2dfb715ea40d23b53277e26433a325dfe2b8abc8aa4
+scheme: pn/1
+class: track-roller
+name: Track roller, RolaCase side lock
+nickname: "Yoked Yawless Yo-yo"
+description: >-
+  3D-printed roller that runs in the side lock track of a RolaCase-style
+  carry case, turning on a journal spacer and held on by an M5 button head
+  sunk in its counterbore. Holes are standard drill sizes: drill out after
+  printing. Print flat, bottom face down, no supports.
+uses:
+  screw: YAQ-Q2SV-WQ8B5
+parameters:
+  track_w_mm: 18.5        # channel it runs in (Cut-Extrude5 of the case)
+  track_depth_mm: 10
+  side_clear_mm: 0.5      # roller to channel wall, each side
+  top_clear_mm: 1.0       # roller top to channel floor
+  bore_d_mm: 8.0          # drill; runs on the spacer
+  cbore_d_mm: 11.0        # drill; screw head counterbore
+  spin_gap_mm: 0.3        # spacer longer than the bore, so the roller turns
+  head_below_top_mm: 0.2  # screw head top below the roller top
+  bed_chamfer_mm: 0.4     # 45 deg bottom edge, against elephant's foot
+appearance:
+  colour: [0.95, 0.55, 0.10]
+capabilities:
+  track_w_mm: [17.9, 19.5]
+  track_depth_mm: [9.5, 40]
+files:
+  - build_roller.py
+  - swkit.py

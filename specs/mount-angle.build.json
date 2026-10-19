@@ -1,0 +1,16 @@
+{
+  "id": "NGZ-D4Y4-CH3ZG",
+  "full_hash": "sha256:caa23de37318e9ff7ca2809805a71ae4aa0546824f5d5ca77387f017c8c650fb",
+  "requirements": "specs/mount-angle.yaml",
+  "canonical": "{\"class\":\"case-mount-rail\",\"parameters\":{\"angle_end_margin_mm\":22.5,\"angle_leg_mm\":50,\"angle_t_mm\":2,\"case_w_mm\":368,\"channel_y_mm\":[8,26.5],\"end_clear_mm\":0.5,\"entry_slot_z_mm\":[-71.5,-51.5],\"pocket_end_z_mm\":46,\"rib_front_z_mm\":-71.5,\"rib_t_mm\":2.5,\"roller_spacing_mm\":135,\"side_gap_mm\":0.5,\"tap_drill_mm\":4.2},\"scheme\":\"pn/1\",\"uses\":{\"roller\":\"YYY-V00T-MDAXM\",\"screw\":\"YAQ-Q2SV-WQ8B5\",\"spacer\":\"PVQ-AHQ6-SPD1G\"}}",
+  "uses": {
+    "roller": "YYY-V00T-MDAXM",
+    "spacer": "PVQ-AHQ6-SPD1G",
+    "screw": "YAQ-Q2SV-WQ8B5"
+  },
+  "outputs": {
+    "parts/Mount_Angle.SLDPRT": "531ed41f0dc4799a03619ed9ca8f7757b6dfa29f",
+    "drawings/Mount_Angle.SLDDRW": "f66c53222772b6f61ef47adecf73a19fd9811aaf",
+    "drawings/Mount_Angle.PDF": "5b0fb6d708d401e9cffa23e86bbb11d22927d167"
+  }
+}

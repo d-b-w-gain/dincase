@@ -1,0 +1,12 @@
+# SolidWorks "file in use" lock files
+~$*
+
+# Python
+__pycache__/
+
+# Saved RolaCase product page - local reference only (third-party content)
+Van Frame Kit + 3 Cases.htm
+Van Frame Kit + 3 Cases_files/
+
+# Reference photos of the case - kept local
+photos/

@@ -1,0 +1,3 @@
+pywin32>=305
+PyYAML>=5.4
+partnum @ git+https://github.com/d-b-w-gain/partnum@v0.1.0

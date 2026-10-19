@@ -1,0 +1,20 @@
+id: YAQ-Q2SV-WQ8B5
+full_hash: sha256:8b8182600faec848abd4e6e1fb400d557d98f73faf92241322529f345bd19b50
+scheme: pn/1
+class: fastener
+name: Button head screw M5 x 12 (ISO 7380), modelled
+nickname: "Yaw-Arresting Quoin"
+description: >-
+  Simplified model of the M5 x 12 button head socket screws used on the
+  mount: head, shank, hex socket and a chamfered tip. Head size measured.
+parameters:
+  thread_d_mm: 5.0
+  length_mm: 12
+  head_d_mm: 9.4          # measured
+  head_h_mm: 4.0          # measured
+  hex_af_mm: 3.0
+  tip_chamfer_mm: 0.8     # clears the rib fillet when used as the lock screw
+appearance:
+  colour: [0.80, 0.80, 0.82]
+capabilities:
+  thread_d_mm: [5, 5]

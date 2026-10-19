@@ -1,0 +1,10 @@
+{
+  "id": "YAQ-Q2SV-WQ8B5",
+  "full_hash": "sha256:8b8182600faec848abd4e6e1fb400d557d98f73faf92241322529f345bd19b50",
+  "requirements": "specs/m5x12-button.yaml",
+  "canonical": "{\"class\":\"fastener\",\"parameters\":{\"head_d_mm\":9.4,\"head_h_mm\":4,\"hex_af_mm\":3,\"length_mm\":12,\"thread_d_mm\":5,\"tip_chamfer_mm\":0.8},\"scheme\":\"pn/1\",\"uses\":{}}",
+  "uses": {},
+  "outputs": {
+    "parts/M5x12_Button.SLDPRT": "572bc3467c3f994d86fd531f5e5369be20abbd61"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "PVQ-AHQ6-SPD1G",
+  "full_hash": "sha256:7c8712528a7333ab9a43d1f69d044e120dc51d94c8ba5808dbba5b55a994bd06",
+  "requirements": "specs/roller-spacer.yaml",
+  "canonical": "{\"class\":\"journal-spacer\",\"parameters\":{\"bed_chamfer_mm\":0.4,\"bore_d_mm\":4.2,\"running_fit_mm\":0.4},\"scheme\":\"pn/1\",\"uses\":{\"roller\":\"YYY-V00T-MDAXM\"}}",
+  "uses": {
+    "roller": "YYY-V00T-MDAXM"
+  },
+  "outputs": {
+    "parts/Roller_Spacer.SLDPRT": "79d757aeb13c0b13e7b7643ad9181b32ce2a15cf",
+    "stl/Roller_Spacer.STL": "bb6c68c1c7b98d3cde92fd990aa1d458de257e99"
+  }
+}

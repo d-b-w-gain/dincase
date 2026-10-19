@@ -1,0 +1,8 @@
+#!/bin/sh
+# Installed by `partnum install-hook`: refuse to push if any released part
+# tag no longer matches its requirements, build record or files.
+cd "$(git rev-parse --show-toplevel)" || exit 1
+python -m partnum verify || {
+    echo "pre-push: part release check failed - not pushing." >&2
+    exit 1
+}
