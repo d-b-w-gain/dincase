@@ -39,10 +39,21 @@ from swkit import (
 MASTER = os.path.join(PARTS_DIR, "RC001_Case_v2.SLDPRT")
 ASM_PATH = os.path.join(HERE, "RolaCase_Assembly.SLDASM")
 # Assemblies that use this one - re-linked after a rebuild.
-USED_IN = [os.path.join(HERE, "RolaCase_AngleMount.SLDASM")]
+USED_IN = [os.path.join(HERE, "RolaCase_AngleMount.SLDASM"),
+           os.path.join(HERE, "Dincase_Shelf.SLDASM")]
 
 LID_H = 25.0            # lid tray depth (photos: 23-27 of 85)
 WALL = 2.5              # moulded wall / floor thickness
+
+# Moulding draft (estimated from IMG_4732 / IMG_4736 - measure to confirm:
+# width across the lid, across the base just under the seam, and across the
+# base bottom edge). The lid is the widest part (the master's W x D); the
+# base is set in by LID_STEP at the seam and tapers in towards its bottom;
+# the lid tapers in towards its top. Tracks and pockets keep their master
+# positions, so roller and angle positions don't change.
+BASE_DRAFT_DEG = 2.0
+LID_DRAFT_DEG = 2.0
+LID_STEP = 1.5          # lid outside beyond base outside at the seam, a side
 TRACK_TOP = 30.0        # below this the side walls step in round the tracks
 TRACK_DEPTH = 10.0      # side track depth (Cut-Extrude5)
 
@@ -134,6 +145,26 @@ def latch_zone(W, D):
     return xs, zc
 
 
+def draft_walls(k, W, D, y_lo, y_hi, inset_at, angle_deg):
+    """Trim all four outside walls between y_lo and y_hi so they slope:
+    the wall sits `inset_at(y)` in from the master envelope, linear in y.
+    Done as wedge cuts through the part, so features cut by the master
+    (tracks, pockets) stay exactly where they are."""
+    import math
+    t = math.tan(math.radians(angle_deg))
+    a, b = inset_at(y_lo, t), inset_at(y_hi, t)
+    k.sketch(k.front)                                   # +/-X walls
+    for s in (-1, 1):
+        k.poly([(s * (W / 2 - a), y_lo, 0), (s * (W / 2 + 2), y_lo, 0),
+                (s * (W / 2 + 2), y_hi, 0), (s * (W / 2 - b), y_hi, 0)])
+    k.cut(D + 40)
+    k.sketch(k.right)                                   # +/-Z walls
+    for s in (-1, 1):
+        k.poly([(0, y_lo, s * (D / 2 - a)), (0, y_lo, s * (D / 2 + 2)),
+                (0, y_hi, s * (D / 2 + 2)), (0, y_hi, s * (D / 2 - b))])
+    k.cut(W + 40)
+
+
 def build_base(sw, W, H, D):
     seam = H - LID_H
     model, k = derived(sw)
@@ -143,6 +174,10 @@ def build_base(sw, W, H, D):
     k.sketch(k.yplane(seam + 50))
     k.box("y", -W, W, -D, D, seam + 50)
     k.cut(100)
+
+    # Draft: set in by LID_STEP at the seam, more towards the bottom.
+    draft_walls(k, W, D, -1, seam,
+                lambda y, t: LID_STEP + (seam - y) * t, BASE_DRAFT_DEG)
 
     # Hollow: narrow round the tracks, wider above them.
     k.sketch(k.yplane((WALL + TRACK_TOP) / 2))
@@ -178,6 +213,13 @@ def build_base(sw, W, H, D):
         k.box("z", s * a, s * (a + BOSS_W), py - BOSS_H / 2, py + BOSS_H / 2,
               0)
     k.boss(2 * (pz - D / 2))
+    # Fill the gap the draft leaves between the bosses and the front wall.
+    k.sketch(k.zplane(D / 2 - 3))
+    for s in (-1, 1):
+        a = HANDLE_INNER / 2 + HANDLE_T + 0.5
+        k.box("z", s * a, s * (a + BOSS_W), py - BOSS_H / 2, py + BOSS_H / 2,
+              0)
+    k.boss(6)
     k.sketch(k.right)
     k.circle((0, py, pz), PIN_D + PIN_CLEAR)
     k.cut(W + 20)
@@ -195,6 +237,10 @@ def build_lid(sw, W, H, D):
     k.sketch(k.yplane(seam - 50))
     k.box("y", -W, W, -D, D, seam - 50)
     k.cut(100)
+
+    # Draft: full size at the seam, tapering in towards the top.
+    draft_walls(k, W, D, seam, H + 1,
+                lambda y, t: (y - seam) * t, LID_DRAFT_DEG)
 
     # Hollow, open to the seam.
     top = H - WALL
