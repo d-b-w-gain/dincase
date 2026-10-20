@@ -1,0 +1,21 @@
+scheme: pn/1
+class: journal-spacer
+name: Slide roller spacer, M5 (draft)
+description: >-
+  3D-printed journal for the slide roller: a collar that stands the roller
+  off the shelf rail, clear of the lock and stop screw heads, and a spigot
+  the roller turns on. The M5 x 16 button head clamps the spacer, not the
+  roller. Bore is the M5 tap drill: tap it M5 or drill 5.0-5.5.
+uses:
+  roller: AWY-JZEZ-6E9G3
+parameters:
+  running_fit_mm: 0.4      # diametral, roller bore over spigot
+  bore_d_mm: 4.2
+  collar_d_mm: 14
+  standoff_mm: 5           # roller face off the shelf rail upright
+  bed_chamfer_mm: 0.4
+appearance:
+  colour: [0.60, 0.60, 0.60]
+files:
+  - build_slide.py
+  - swkit.py

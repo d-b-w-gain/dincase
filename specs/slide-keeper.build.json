@@ -1,0 +1,11 @@
+{
+  "id": "GDH-CCQ7-QHW3S",
+  "full_hash": "sha256:4f9ae631e14913d5291aa527ae666b31e5fe080f287b816df768e72a9b4704a4",
+  "requirements": "specs/slide-keeper.yaml",
+  "canonical": "{\"class\":\"slide-keeper\",\"parameters\":{\"bolt_d_mm\":4.2,\"bolts_from_end_mm\":[21.25,63.75,106.25,148.75],\"cbore_d_mm\":10.5,\"cbore_depth_mm\":4.5,\"height_mm\":13,\"length_mm\":170,\"width_mm\":13},\"scheme\":\"pn/1\",\"uses\":{}}",
+  "uses": {},
+  "outputs": {
+    "parts/Slide_Keeper.SLDPRT": "ad956a588f9a4edef0b0eb74dd68090932e19fdd",
+    "stl/Slide_Keeper.STL": "74f8d337690e3651392fa4efa015bb9d7591e97d"
+  }
+}

@@ -1,0 +1,20 @@
+scheme: pn/1
+class: slide-shoe
+name: Slide shoe (draft)
+description: >-
+  3D-printed shoe stuck (VHB tape) under the front of the shelf rail's base
+  leg. Clears the fixed leg by 0.4 mm while the shelf travels; at the shut
+  position it rides onto the landing pad and lifts the shelf front 0.5 mm.
+  Fits either side.
+parameters:
+  length_mm: 35
+  width_mm: 24
+  height_mm: 2.6
+  end_chamfer_mm: 1.2
+  centre_z_mm: 37.5        # shelf coordinates (moves with the shelf rail)
+  centre_x_mm: 172
+appearance:
+  colour: [0.20, 0.55, 0.45]
+files:
+  - build_slide.py
+  - swkit.py

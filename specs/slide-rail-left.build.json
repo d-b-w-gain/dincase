@@ -1,0 +1,10 @@
+{
+  "id": "ERK-V5MQ-AYPH6",
+  "full_hash": "sha256:0f449d011c5ce7195acd44e9831857adb4df65e3f9c86bf643a6975f8a71f444",
+  "requirements": "specs/slide-rail-left.yaml",
+  "canonical": "{\"class\":\"slide-rail\",\"parameters\":{\"angle_leg_mm\":50,\"angle_t_mm\":2,\"bolt_d_mm\":5.5,\"bolts_front_from_end_mm\":[12.5,37.5,62.5,87.5,112.5,137.5,157.5],\"bolts_mid_from_end_mm\":[21.25,63.75,106.25,148.75],\"front_z_mm\":219,\"hand\":\"left\",\"keeper_clear_mm\":0.5,\"keeper_h_mm\":13,\"keeper_inner_x_mm\":192,\"keeper_segments\":3,\"lane_clear_mm\":1.5,\"rear_z_mm\":-291,\"ride_mm\":3},\"scheme\":\"pn/1\",\"uses\":{}}",
+  "uses": {},
+  "outputs": {
+    "parts/Slide_Rail_L.SLDPRT": "03dbda4046cfb996cbc5a35ff4fb674cfa160d04"
+  }
+}

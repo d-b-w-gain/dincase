@@ -1,0 +1,11 @@
+{
+  "id": "JZK-MC6Q-8R9GQ",
+  "full_hash": "sha256:b6aed56a34e1bb2d851760d39c157b98d5218221d473ceaa38e1d9792e7bf6ba",
+  "requirements": "specs/slide-shoe.yaml",
+  "canonical": "{\"class\":\"slide-shoe\",\"parameters\":{\"centre_x_mm\":172,\"centre_z_mm\":37.5,\"end_chamfer_mm\":1.2,\"height_mm\":2.6,\"length_mm\":35,\"width_mm\":24},\"scheme\":\"pn/1\",\"uses\":{}}",
+  "uses": {},
+  "outputs": {
+    "parts/Slide_Shoe.SLDPRT": "2a665ac628f29b5f885cecadebac7608b21ce105",
+    "stl/Slide_Shoe.STL": "679013d3b941b3ef5b7bb3ba66bc7ee90ff0cec3"
+  }
+}

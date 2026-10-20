@@ -1,0 +1,10 @@
+{
+  "id": "HPT-1R0B-D3RQD",
+  "full_hash": "sha256:ca8b1f344406ac33e72bc07946fdba516a63b17c278932e0789c97ec40c110e7",
+  "requirements": "specs/slide-rail-right.yaml",
+  "canonical": "{\"class\":\"slide-rail\",\"parameters\":{\"angle_leg_mm\":50,\"angle_t_mm\":2,\"bolt_d_mm\":5.5,\"bolts_front_from_end_mm\":[12.5,37.5,62.5,87.5,112.5,137.5,157.5],\"bolts_mid_from_end_mm\":[21.25,63.75,106.25,148.75],\"front_z_mm\":219,\"hand\":\"right\",\"keeper_clear_mm\":0.5,\"keeper_h_mm\":13,\"keeper_inner_x_mm\":192,\"keeper_segments\":3,\"lane_clear_mm\":1.5,\"rear_z_mm\":-291,\"ride_mm\":3},\"scheme\":\"pn/1\",\"uses\":{}}",
+  "uses": {},
+  "outputs": {
+    "parts/Slide_Rail_R.SLDPRT": "7133fd20b64491cc86994a61345f74d3f7b429af"
+  }
+}

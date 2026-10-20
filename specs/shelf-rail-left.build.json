@@ -1,16 +1,16 @@
 {
-  "id": "ZKM-91RV-KHZYH",
-  "full_hash": "sha256:590e581e1bb8975457856bdca5ef2cb919080f38cdb3aa2a70195e93d5a3bd1b",
+  "id": "KGD-TC29-WE9V1",
+  "full_hash": "sha256:ba9fc3eac41cd78574bac4a771b5a99b9906b588967be14a771c12ac26bb63a9",
   "requirements": "specs/shelf-rail-left.yaml",
-  "canonical": "{\"class\":\"case-shelf-rail\",\"parameters\":{\"angle_leg_mm\":50,\"angle_t_mm\":2,\"brace_hole_d_mm\":5.5,\"brace_holes_from_heel_mm\":25,\"brace_holes_from_rear_mm\":[12.5,37.5],\"case_d_mm\":368,\"case_w_mm\":368,\"channel_y_mm\":[8,26.5],\"end_clear_mm\":0.5,\"entry_slot_z_mm\":[-71.5,-51.5],\"front_margin_mm\":22.5,\"hand\":\"left\",\"pocket_end_z_mm\":46,\"rear_overhang_mm\":50,\"rib_front_z_mm\":-71.5,\"rib_t_mm\":2.5,\"roller_spacing_mm\":135,\"side_gap_mm\":0.5,\"tap_drill_mm\":4.2},\"scheme\":\"pn/1\",\"uses\":{\"roller\":\"YYY-V00T-MDAXM\",\"screw\":\"YAQ-Q2SV-WQ8B5\",\"spacer\":\"PVQ-AHQ6-SPD1G\"}}",
+  "canonical": "{\"class\":\"case-shelf-rail\",\"parameters\":{\"angle_leg_mm\":50,\"angle_t_mm\":2,\"brace_hole_d_mm\":5.5,\"brace_holes_from_heel_mm\":25,\"brace_holes_from_rear_mm\":[12.5,37.5],\"case_d_mm\":368,\"case_w_mm\":368,\"channel_y_mm\":[8,26.5],\"end_clear_mm\":0.5,\"entry_slot_z_mm\":[-71.5,-51.5],\"front_margin_mm\":22.5,\"hand\":\"left\",\"pocket_end_z_mm\":46,\"rear_overhang_mm\":100,\"rib_front_z_mm\":-71.5,\"rib_t_mm\":2.5,\"roller_spacing_mm\":135,\"side_gap_mm\":0.5,\"slide_axis_y_mm\":10,\"slide_roller_from_rear_mm\":18,\"slide_roller_spacing_mm\":110,\"stop_travel_mm\":75,\"tap_drill_mm\":4.2},\"scheme\":\"pn/1\",\"uses\":{\"roller\":\"YYY-V00T-MDAXM\",\"screw\":\"YAQ-Q2SV-WQ8B5\",\"spacer\":\"PVQ-AHQ6-SPD1G\"}}",
   "uses": {
     "roller": "YYY-V00T-MDAXM",
     "spacer": "PVQ-AHQ6-SPD1G",
     "screw": "YAQ-Q2SV-WQ8B5"
   },
   "outputs": {
-    "parts/Shelf_Rail_L.SLDPRT": "83f7b9aaa7fe5abec1525d2806cbac785906c38f",
-    "drawings/Shelf_Rail.SLDDRW": "1835169ca4f08f4a0f494a6503c5dfc730c4c87b",
-    "drawings/Shelf_Rail.PDF": "944919cda81f86174292bea59c60e7bf78b94d75"
+    "parts/Shelf_Rail_L.SLDPRT": "1997c71f037b774dee2f1cde2275999262a10115",
+    "drawings/Shelf_Rail.SLDDRW": "215ac93d9e48d9a9fc639f6035e7ba5fbb55ce0c",
+    "drawings/Shelf_Rail.PDF": "fdea2c6d24c71838264764c8bdc12b6c7f670d0b"
   }
 }

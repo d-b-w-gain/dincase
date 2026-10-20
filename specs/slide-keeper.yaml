@@ -1,0 +1,18 @@
+scheme: pn/1
+class: slide-keeper
+name: Slide keeper, plain segment (draft)
+description: >-
+  3D-printed keeper bolted inside the fixed slide rail's upright, over the slide rollers, so the shelf rail can't lift when the shelf is cantilevered out. Plain segment, fits either side (turned end for end). Print on its long side, no supports.
+parameters:
+  length_mm: 170
+  width_mm: 13             # fixed upright to the face nearest the case
+  height_mm: 13
+  bolt_d_mm: 4.2           # M5 tap drill (or 5.5 for a through bolt + nut)
+  cbore_d_mm: 10.5         # button head, sunk in the face nearest the case
+  cbore_depth_mm: 4.5
+  bolts_from_end_mm: [21.25, 63.75, 106.25, 148.75]
+appearance:
+  colour: [0.20, 0.55, 0.45]
+files:
+  - build_slide.py
+  - swkit.py

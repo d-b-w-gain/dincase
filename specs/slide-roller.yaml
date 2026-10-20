@@ -1,0 +1,24 @@
+scheme: pn/1
+class: slide-roller
+name: Slide roller, dincase drawer slide (draft)
+description: >-
+  3D-printed roller for the dincase drawer slide: two on the outside of each
+  shelf rail run on the fixed slide rail's leg, under a printed keeper. Same
+  recipe as the track roller (bore turns on a printed journal spacer, M5
+  button head sunk in the counterbore) at a size the slide allows. Holes are
+  standard drill sizes: drill out after printing. Print flat, no supports.
+parameters:
+  roller_d_mm: 30          # rides on the fixed leg; sets the shelf ride
+  roller_h_mm: 12
+  bore_d_mm: 8.0           # drill; runs on the spacer spigot
+  cbore_d_mm: 11.0         # drill; screw head counterbore
+  spin_gap_mm: 0.3         # spigot longer than the bore, so it turns
+  head_below_top_mm: 0.2
+  head_d_mm: 9.4           # M5 button head (as measured for the M5x12)
+  head_h_mm: 4.0
+  bed_chamfer_mm: 0.4
+appearance:
+  colour: [0.95, 0.55, 0.10]
+files:
+  - build_slide.py
+  - swkit.py

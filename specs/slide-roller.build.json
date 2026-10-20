@@ -1,0 +1,11 @@
+{
+  "id": "AWY-JZEZ-6E9G3",
+  "full_hash": "sha256:1913339190abbce9d5e519496bb3c37963e5b365e432cb56d2a9f634c771810c",
+  "requirements": "specs/slide-roller.yaml",
+  "canonical": "{\"class\":\"slide-roller\",\"parameters\":{\"bed_chamfer_mm\":0.4,\"bore_d_mm\":8,\"cbore_d_mm\":11,\"head_below_top_mm\":0.2,\"head_d_mm\":9.4,\"head_h_mm\":4,\"roller_d_mm\":30,\"roller_h_mm\":12,\"spin_gap_mm\":0.3},\"scheme\":\"pn/1\",\"uses\":{}}",
+  "uses": {},
+  "outputs": {
+    "parts/Slide_Roller.SLDPRT": "0bd57e62076c876b8c4be6895b7fef44457ea825",
+    "stl/Slide_Roller.STL": "085687b6cd8ec33293080af04bd0f7a1b9570fdd"
+  }
+}

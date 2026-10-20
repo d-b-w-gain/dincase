@@ -1,0 +1,11 @@
+{
+  "id": "QZG-RZG3-6Y55T",
+  "full_hash": "sha256:3ea5667843442754e2d6f9687bb9b7800c007f1ceb9211f02e722d8d826f2073",
+  "requirements": "specs/slide-keeper-front-right.yaml",
+  "canonical": "{\"class\":\"slide-keeper\",\"parameters\":{\"bolt_d_mm\":4.2,\"bolts_from_end_mm\":[12.5,37.5,62.5,87.5,112.5,137.5,157.5],\"cbore_d_mm\":10.5,\"cbore_depth_mm\":4.5,\"hand\":\"right\",\"height_mm\":13,\"length_mm\":170,\"lug_bottom_y_mm\":-4,\"lug_t_mm\":6,\"width_mm\":13},\"scheme\":\"pn/1\",\"uses\":{}}",
+  "uses": {},
+  "outputs": {
+    "parts/Slide_Keeper_Front_R.SLDPRT": "a1b0103e413e7fdd489d5eb55f587fb7378d8255",
+    "stl/Slide_Keeper_Front_R.STL": "c7931cad20b6ab14c657b83556dad33848bd5276"
+  }
+}

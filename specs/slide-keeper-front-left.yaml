@@ -1,0 +1,21 @@
+scheme: pn/1
+class: slide-keeper
+name: Slide keeper, front segment, left hand (draft)
+description: >-
+  Front keeper segment: carries the most load (the rear roller pushes up on it when the shelf is fully out), so its bolts are closer together, and a lug at the front end is the slide's end stop for the front roller. Handed.
+parameters:
+  hand: left
+  length_mm: 170
+  width_mm: 13             # fixed upright to the face nearest the case
+  height_mm: 13
+  bolt_d_mm: 4.2           # M5 tap drill (or 5.5 for a through bolt + nut)
+  cbore_d_mm: 10.5         # button head, sunk in the face nearest the case
+  cbore_depth_mm: 4.5
+  bolts_from_end_mm: [12.5, 37.5, 62.5, 87.5, 112.5, 137.5, 157.5]
+  lug_t_mm: 6              # end stop, front end
+  lug_bottom_y_mm: -4      # 1 mm above the fixed leg
+appearance:
+  colour: [0.20, 0.55, 0.45]
+files:
+  - build_slide.py
+  - swkit.py

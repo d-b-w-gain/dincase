@@ -1,0 +1,32 @@
+scheme: pn/1
+class: slide-rail
+name: dincase drawer slide fixed rail, left hand (draft)
+description: >-
+  Fixed member of the dincase drawer slide: 50x50x2 angle with its upright
+  outside the slide rollers and its leg under the shelf rail, 3 mm below
+  it. The rollers on the shelf rail run on the leg; printed keepers bolted
+  inside the upright stop them lifting when the shelf is out. The keeper
+  bolts also mount the rail (through standoffs to the trunk wall). Lengths
+  are placeholders until the trunk depth is measured. Handed: left and right
+  are mirror images.
+parameters:
+  hand: left
+  angle_leg_mm: 50
+  angle_t_mm: 2.0
+  ride_mm: 3               # shelf rail heel to the top of this leg
+  lane_clear_mm: 1.5       # slide roller outer face to this upright
+  front_z_mm: 219          # rail ends, in the shelf's coordinates with the
+  rear_z_mm: -291          #   drawer shut (case centre 0, case front 184)
+  keeper_clear_mm: 0.5     # roller top to keeper
+  keeper_h_mm: 13
+  keeper_inner_x_mm: 192   # keeper face nearest the case (|x|), clear of
+                           #   the stop/lock heads on the shelf rail
+  keeper_segments: 3       # printed lengths, rear to front
+  bolt_d_mm: 5.5           # M5 clearance: keeper bolts through the upright
+  bolts_mid_from_end_mm: [21.25, 63.75, 106.25, 148.75]   # plain keeper
+  bolts_front_from_end_mm: [12.5, 37.5, 62.5, 87.5, 112.5, 137.5, 157.5]
+appearance:
+  colour: [0.62, 0.64, 0.66]
+files:
+  - build_slide.py
+  - swkit.py

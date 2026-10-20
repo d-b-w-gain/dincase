@@ -1,0 +1,11 @@
+{
+  "id": "XPF-61A9-2VWCX",
+  "full_hash": "sha256:0601c8addc08a7af967175e1d8032a9bfc4777e978c0f004c03afcf404b1f71f",
+  "requirements": "specs/landing-pad.yaml",
+  "canonical": "{\"class\":\"slide-landing-pad\",\"parameters\":{\"centre_x_mm\":172,\"centre_z_mm\":37.5,\"height_mm\":0.9,\"length_mm\":47,\"ramp_mm\":6,\"width_mm\":24},\"scheme\":\"pn/1\",\"uses\":{}}",
+  "uses": {},
+  "outputs": {
+    "parts/Landing_Pad.SLDPRT": "f554896ef9018df7513c979bd0d7f5b7e1dfeb24",
+    "stl/Landing_Pad.STL": "36dc8d95c19c9308b92c96b9582397dddf72a381"
+  }
+}

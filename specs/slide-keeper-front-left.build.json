@@ -1,0 +1,11 @@
+{
+  "id": "NCR-60RK-X5NWP",
+  "full_hash": "sha256:586ec019c077022e7ad0a59a61f82efda3faaed07e71b3f0d15f514aee3e143f",
+  "requirements": "specs/slide-keeper-front-left.yaml",
+  "canonical": "{\"class\":\"slide-keeper\",\"parameters\":{\"bolt_d_mm\":4.2,\"bolts_from_end_mm\":[12.5,37.5,62.5,87.5,112.5,137.5,157.5],\"cbore_d_mm\":10.5,\"cbore_depth_mm\":4.5,\"hand\":\"left\",\"height_mm\":13,\"length_mm\":170,\"lug_bottom_y_mm\":-4,\"lug_t_mm\":6,\"width_mm\":13},\"scheme\":\"pn/1\",\"uses\":{}}",
+  "uses": {},
+  "outputs": {
+    "parts/Slide_Keeper_Front_L.SLDPRT": "a0eac2b0462fadde18b9ad30e2a105b13c5963d2",
+    "stl/Slide_Keeper_Front_L.STL": "e4e6218e3dbd4b5c9dd0df5743991394810fd0a0"
+  }
+}

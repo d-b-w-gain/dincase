@@ -12,10 +12,18 @@ images: same parameters apart from `hand`). Makes:
     Dincase_Shelf.SLDASM          - case + both rails, rollers and screws
     drawings/Shelf_Rail.SLDDRW/.PDF - LH as drawn, RH opposite hand
 
-Per rail: 50x50x2 angle, upright outside the case. Three M5 tapped holes in
-the upright (rear roller, lock screw, front roller) at the same positions
-relative to the case as the mounting angle; two M5 clearance holes in the
-base leg where it runs past the case, for the rear cross brace.
+Per rail: 50x50x2 angle, upright outside the case. Four M5 tapped holes in
+the upright on the track line: rear roller, lock screw and front roller at
+the same positions relative to the case as the mounting angle, plus a stop
+screw. Two more, lower down, carry the drawer-slide rollers on the outside
+(see build_slide.py). Two M5 clearance holes in the base leg where it runs
+past the case, for the rear cross brace.
+
+Two-stage pull-out: with the lock screw left out, the case rolls forward on
+its own track rollers until the stop screw meets the rib between the
+pockets (stop_travel_mm, short of the rear roller leaving its lip). Then the
+rail itself runs out on the slide. The lock screw hole stays, as a transit
+lock.
 
 Axes: X across the case, Y up (case bottom at 0), Z front (+, handle).
 """
@@ -67,6 +75,10 @@ TAP_DRILL = P["tap_drill_mm"]
 BRACE_D = P["brace_hole_d_mm"]
 BRACE_FROM_REAR = list(P["brace_holes_from_rear_mm"])
 BRACE_FROM_HEEL = P["brace_holes_from_heel_mm"]
+STOP_TRAVEL = P["stop_travel_mm"]
+SLIDE_Y = P["slide_axis_y_mm"]
+SLIDE_FROM_REAR = P["slide_roller_from_rear_mm"]
+SLIDE_SPACING = P["slide_roller_spacing_mm"]
 SCREW_D = SCREW["thread_d_mm"]
 SCREW_L = SCREW["length_mm"]
 HEAD_H = SCREW["head_h_mm"]
@@ -81,13 +93,18 @@ AXIS_Y = sum(CHANNEL_Y) / 2
 FRONT_Z = POCKET_END_Z - ROLLER_D / 2 - END_CLEAR       # locked rollers
 REAR_Z = FRONT_Z - ROLLER_SPACING
 LOCK_Z = RIB_FRONT_Z + SCREW_D / 2                      # thread on the rib
+STOP_Z = LOCK_Z + STOP_TRAVEL                           # meets the rib later
 UPRIGHT_X = CASE_W / 2 + SIDE_GAP                       # upright inner face
 OUTER_X = UPRIGHT_X + T
 HOLE_Y = T + AXIS_Y                                     # from the heel
 RAIL_Z0 = -CASE_D / 2 - REAR_OVERHANG                   # rear end (asm)
 RAIL_Z1 = FRONT_Z + FRONT_MARGIN                        # front end (asm)
 RAIL_LEN = RAIL_Z1 - RAIL_Z0
-HOLES_FROM_REAR = [REAR_Z - RAIL_Z0, LOCK_Z - RAIL_Z0, FRONT_Z - RAIL_Z0]
+HOLES_FROM_REAR = [REAR_Z - RAIL_Z0, LOCK_Z - RAIL_Z0, STOP_Z - RAIL_Z0,
+                   FRONT_Z - RAIL_Z0]
+SLIDE_HOLE_Y = T + SLIDE_Y                              # from the heel
+SLIDE_FROM_REAR_ALL = [SLIDE_FROM_REAR, SLIDE_FROM_REAR + SLIDE_SPACING]
+SLIDE_Z = [RAIL_Z0 + h for h in SLIDE_FROM_REAR_ALL]    # asm, case locked
 
 assert ROLLER_D < CHANNEL_Y[1] - CHANNEL_Y[0], "roller wider than channel"
 _drop_front = ENTRY_SLOT[1] - ROLLER_D / 2
@@ -96,6 +113,14 @@ assert _drop_front - ROLLER_SPACING + ROLLER_D / 2 < -CASE_W / 2, \
 assert REAR_Z + ROLLER_D / 2 < RIB_FRONT_Z - RIB_T, "rear roller hits the rib"
 assert max(BRACE_FROM_REAR) + BRACE_D / 2 < REAR_OVERHANG, \
     "brace holes must be in the overhang, behind the case"
+assert REAR_Z - STOP_TRAVEL - ROLLER_D / 2 >= -CASE_D / 2, \
+    "at full case travel the rear roller leaves its lip"
+assert STOP_Z + SCREW_D / 2 < FRONT_Z - ROLLER_D / 2, "stop screw hits roller"
+# Slide roller standoffs (dia 14 at SLIDE_Y) must clear the screw heads and
+# tips on the track line.
+assert min(abs(a - b) for a in SLIDE_Z
+           for b in (REAR_Z, LOCK_Z, STOP_Z, FRONT_Z)) > 15, \
+    "slide roller standoff hits a screw on the track line"
 
 
 # ---------------------------------------------------------------------- part
@@ -144,6 +169,25 @@ def build_rail(sw, req, sign):
     md.ClearSelection2(True)
     k.cut(10)
 
+    # Upright, low down: slide roller holes (M5 tapped).
+    k.sketch(k.right)
+    slide = [k.circle((0, SLIDE_HOLE_Y, z), TAP_DRILL)
+             for z in SLIDE_FROM_REAR_ALL]
+    pick(slide[0])
+    md.AddDimension2(0, m(SLIDE_HOLE_Y - 10), m(SLIDE_FROM_REAR_ALL[0]))
+    pick(slide[0], slide[1])
+    md.SketchAddConstraints("sgSAMELENGTH")
+    pick(slide[0].GetCenterPoint2, slide[1].GetCenterPoint2)
+    md.SketchAddConstraints("sgHORIZONTALPOINTS2D")
+    pick(slide[0].GetCenterPoint2, "origin")
+    md.AddVerticalDimension2(0, m(SLIDE_HOLE_Y / 2), m(-30))
+    for i, c in enumerate(slide):
+        pick(c.GetCenterPoint2, "origin")
+        md.AddHorizontalDimension2(0, m(LEG + 6 + 7 * i),
+                                   m(SLIDE_FROM_REAR_ALL[i] / 2))
+    md.ClearSelection2(True)
+    k.cut(10)
+
     # Base leg, behind the case: rear cross brace bolts (M5 clearance).
     k.sketch(k.top)
     braces = [k.circle((s * BRACE_FROM_HEEL, 0, z), BRACE_D)
@@ -174,25 +218,34 @@ def build_rail(sw, req, sign):
 
 
 # ------------------------------------------------------------------ assembly
-def build_assembly(sw, left_path, right_path):
+SCREW_IGNORE = {("M5x12_Button", "Shelf_Rail_L"),
+                ("M5x12_Button", "Shelf_Rail_R"),
+                ("M5x12_Button", "Roller_Spacer")}
+
+
+def place_shelf(sw, asm, left_path, right_path, rails_dz=0.0, case_dz=0.0,
+                lock=True):
+    """Case, both rails, track rollers, spacers and screws. rails_dz moves
+    the rails (slide travel); case_dz moves the case further along the
+    rails (case travel, up to STOP_TRAVEL). The stop screw is always fitted;
+    the lock screw only if `lock` (it would stop the case travelling)."""
     roller_path = os.path.join(PARTS_DIR, "Track_Roller.SLDPRT")
     spacer_path = os.path.join(PARTS_DIR, "Roller_Spacer.SLDPRT")
     screw_path = os.path.join(PARTS_DIR, "M5x12_Button.SLDPRT")
     for p, kind in ((roller_path, 1), (spacer_path, 1), (screw_path, 1),
                     (CASE_ASM, 2)):
         sw.OpenDoc6(p, kind, 0, "", byref_int(), byref_int())
-    asm = sw.NewDocument(sw.GetUserPreferenceStringValue(9), 0, 0, 0)
-    if asm.SaveAs3(ASM_PATH, 0, 1) != 0:
-        raise RuntimeError("could not save " + ASM_PATH)
-    sw.ActivateDoc3(os.path.basename(ASM_PATH), False, 0, byref_int())
-    comps = [place(sw, asm, CASE_ASM)]
+    sw.ActivateDoc3(os.path.basename(asm.GetPathName), False, 0, byref_int())
+    dz = rails_dz
+    comps = [place(sw, asm, CASE_ASM, IDENT, (0, 0, rails_dz + case_dz))]
     head_face = UPRIGHT_X - SPACER_H
     for s, path in ((-1, left_path), (1, right_path)):
         x0 = s * UPRIGHT_X
-        comps.append(place(sw, asm, path, IDENT, (s * OUTER_X, -T, RAIL_Z0)))
+        comps.append(place(sw, asm, path, IDENT,
+                           (s * OUTER_X, -T, RAIL_Z0 + dz)))
         inward = bm.Y_TO_NEG_X if s > 0 else bm.Y_TO_POS_X
         outward = bm.Y_TO_POS_X if s > 0 else bm.Y_TO_NEG_X
-        for z in (REAR_Z, FRONT_Z):
+        for z in (REAR_Z + dz, FRONT_Z + dz):
             comps.append(bm.place_axis(sw, asm, roller_path, inward,
                                        (x0, AXIS_Y, z),
                                        (x0, x0 - s * ROLLER_H)))
@@ -203,20 +256,30 @@ def build_assembly(sw, left_path, right_path):
                                        (s * head_face, AXIS_Y, z),
                                        (s * (head_face - HEAD_H),
                                         s * (head_face + SCREW_L))))
-        comps.append(bm.place_axis(sw, asm, screw_path, inward,
-                                   (s * OUTER_X, AXIS_Y, LOCK_Z),
-                                   (s * (OUTER_X - SCREW_L),
-                                    s * (OUTER_X + HEAD_H))))
+        for z in ((LOCK_Z, STOP_Z) if lock else (STOP_Z,)):
+            comps.append(bm.place_axis(sw, asm, screw_path, inward,
+                                       (s * OUTER_X, AXIS_Y, z + dz),
+                                       (s * (OUTER_X - SCREW_L),
+                                        s * (OUTER_X + HEAD_H))))
+    return comps
+
+
+def build_assembly(sw, left_path, right_path):
+    asm = sw.NewDocument(sw.GetUserPreferenceStringValue(9), 0, 0, 0)
+    if asm.SaveAs3(ASM_PATH, 0, 1) != 0:
+        raise RuntimeError("could not save " + ASM_PATH)
+    comps = place_shelf(sw, asm, left_path, right_path)
     fix_all(asm, comps)
     call(asm, "EditRebuild3")
-    hits = interferences(asm, ignore_pairs={("M5x12_Button", "Shelf_Rail_L"),
-                                            ("M5x12_Button", "Shelf_Rail_R"),
-                                            ("M5x12_Button", "Roller_Spacer")})
+    hits = interferences(asm, ignore_pairs=SCREW_IGNORE)
     for names, vol in hits:
         print("  INTERFERENCE", names, "%.3f mm3" % vol)
     print("Interferences (excluding screw threads):", len(hits))
-    asm.ShowNamedView2("*Isometric", 7)
-    call(asm, "ViewZoomtofit2")
+    try:                              # cosmetic; the dispatch may not
+        asm.ShowNamedView2("*Isometric", 7)       # expose it
+        call(asm, "ViewZoomtofit2")
+    except AttributeError:
+        pass
     asm.Save3(1, byref_int(), byref_int())
     return asm
 
@@ -226,8 +289,9 @@ DRW_NOTES = [
     "DRAFT - NOT RELEASED",
     "MATERIAL: 50 x 50 x 2 mm EQUAL ANGLE, MILD STEEL",
     "QTY: 1 LEFT HAND AS DRAWN + 1 RIGHT HAND (MIRROR IMAGE)",
-    "UPRIGHT: 3 x M5 x 0.8 TAPPED THRU, TAP DRILL %.1f" % TAP_DRILL,
-    "  (REAR ROLLER, LOCK SCREW, FRONT ROLLER - FROM REAR END)",
+    "UPRIGHT: 6 x M5 x 0.8 TAPPED THRU, TAP DRILL %.1f" % TAP_DRILL,
+    "  UPPER ROW: REAR ROLLER, LOCK, STOP, FRONT ROLLER (FROM REAR END)",
+    "  LOWER ROW: SLIDE ROLLERS",
     "BASE LEG: 2 x %.1f THRU (M5 CLEARANCE) FOR REAR CROSS BRACE" % BRACE_D,
     "CUT LENGTH %.2f +/-0.5. DEBURR ALL EDGES." % RAIL_LEN,
     "FINISH: ZINC PLATE OR PAINT AFTER TAPPING",
@@ -236,10 +300,10 @@ DRW_NOTES = [
 
 # Sheet layout (metres, A3 landscape). Views are 1:1, so each view's box
 # follows from the part size; SolidWorks' own view outlines are too loose.
-UPRIGHT_AT = (0.175, 0.150)       # rail upright, seen from outside
-PLAN_AT = (0.175, 0.240)          # base leg, seen from above (rotated)
-PROFILE_AT = (0.370, 0.150)
-ISO_AT = (0.365, 0.245)
+UPRIGHT_AT = (0.195, 0.150)       # rail upright, seen from outside
+PLAN_AT = (0.195, 0.240)          # base leg, seen from above (rotated)
+PROFILE_AT = (0.388, 0.150)
+ISO_AT = (0.385, 0.255)
 
 
 def _box(centre, w, h):
@@ -260,8 +324,8 @@ def tidy_dimensions(drw):
     boxes = {id(upright): _box(UPRIGHT_AT, L, H),
              id(plan): _box(PLAN_AT, L, H),
              id(profile): _box(PROFILE_AT, H, H)}
-    home = {"Sketch1": [profile], "Sketch2": [upright],
-            "Sketch3": [plan], "Boss-Extrude1": [upright, plan]}
+    home = {"Sketch1": [profile], "Sketch2": [upright], "Sketch3": [upright],
+            "Sketch4": [plan], "Boss-Extrude1": [upright, plan]}
     length_kept = False
     for view in (upright, plan, profile):
         x0, y0, x1, y1 = boxes[id(view)]
@@ -279,13 +343,23 @@ def tidy_dimensions(drw):
                 moves.append((dd, (x0 + x1) / 2,
                               (y0 - 0.031) if view is upright else
                               (y1 + 0.012)))
+            elif view is upright and feat == "Sketch3":   # slide rollers
+                if abs(val - TAP_DRILL) < 1e-6:
+                    moves.append((dd, x - 0.012, y0 - 0.040))
+                elif abs(val - SLIDE_HOLE_Y) < 1e-6:
+                    moves.append((dd, x0 - 0.010, y0 + 0.006))
+                else:
+                    k = SLIDE_FROM_REAR_ALL.index(min(
+                        SLIDE_FROM_REAR_ALL, key=lambda h: abs(h - val)))
+                    moves.append((dd, x, y1 + 0.010 + 0.0072 * k))
             elif view is upright:
                 if abs(val - TAP_DRILL) < 1e-6:
                     moves.append((dd, x + 0.012, y1 + 0.010))
                 elif abs(val - HOLE_Y) < 1e-6:
                     moves.append((dd, x1 + 0.010, y0 + 0.010))
                 else:
-                    k = min(range(3), key=lambda i: abs(HOLES_FROM_REAR[i]
+                    k = min(range(len(HOLES_FROM_REAR)),
+                            key=lambda i: abs(HOLES_FROM_REAR[i]
                                                         - val))
                     moves.append((dd, x, y0 - 0.009 - 0.0072 * k))
             elif view is plan:

@@ -5,7 +5,11 @@ description: >-
   Side rail for a sliding dincase shelf. Same roller, lock-screw and case
   interface as the mounting angle, but the rail runs 50 mm past the
   back of the case so a rear cross brace can sit on the base legs and bolt
-  through them. Handed: left and right are mirror images.
+  through them. The rail is also the moving member of the drawer slide:
+  two slide rollers on the outside of the upright run on the fixed slide
+  rail, and a stop screw lets the case roll forward on its own track
+  rollers by stop_travel_mm before it pulls the rail out. Handed: left and
+  right are mirror images.
 uses:
   roller: YYY-V00T-MDAXM
   spacer: PVQ-AHQ6-SPD1G
@@ -24,7 +28,16 @@ parameters:
   angle_leg_mm: 50
   angle_t_mm: 2.0
   front_margin_mm: 22.5           # front roller hole to front end
-  rear_overhang_mm: 50            # rail past the back of the case
+  rear_overhang_mm: 100           # rail past the back of the case
+                                  # (placeholder until the trunk depth
+                                  # is measured)
+  stop_travel_mm: 75              # case rolls forward this far on the
+                                  # rail before the stop screw meets the
+                                  # rib (rear roller still under its lip)
+  slide_axis_y_mm: 10             # slide roller axis, up from the case
+                                  # bottom (roller rides 3 mm below heel)
+  slide_roller_from_rear_mm: 18   # rear slide roller from the rail's end
+  slide_roller_spacing_mm: 110    # rear to front slide roller
   side_gap_mm: 0.5                # upright to case side
   tap_drill_mm: 4.2               # M5 x 0.8, rollers and lock screw
   brace_hole_d_mm: 5.5            # M5 clearance, rear cross brace bolts

@@ -1,0 +1,20 @@
+scheme: pn/1
+class: slide-landing-pad
+name: Slide landing pad (draft)
+description: >-
+  Thin 3D-printed ramp stuck (VHB tape) on the fixed slide rail's leg. In
+  the last few mm of closing, the shoe under the shelf rail rides up onto
+  it, lifting the front of the shelf so the shut drawer rests on the pad
+  and the rear rollers instead of hanging off the keepers. Fits either side.
+parameters:
+  length_mm: 47
+  width_mm: 24
+  height_mm: 0.9
+  ramp_mm: 6               # ramp length at each end
+  centre_z_mm: 37.5        # shelf coordinates, drawer shut
+  centre_x_mm: 172         # |x|
+appearance:
+  colour: [0.20, 0.55, 0.45]
+files:
+  - build_slide.py
+  - swkit.py

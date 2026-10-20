@@ -1,0 +1,13 @@
+{
+  "id": "KDC-S18Z-ZJPMA",
+  "full_hash": "sha256:3e790095338b3b38b54923d69921b7243380c52dbd75f4a0cb04d9f0807046eb",
+  "requirements": "specs/slide-spacer.yaml",
+  "canonical": "{\"class\":\"journal-spacer\",\"parameters\":{\"bed_chamfer_mm\":0.4,\"bore_d_mm\":4.2,\"collar_d_mm\":14,\"running_fit_mm\":0.4,\"standoff_mm\":5},\"scheme\":\"pn/1\",\"uses\":{\"roller\":\"AWY-JZEZ-6E9G3\"}}",
+  "uses": {
+    "roller": "AWY-JZEZ-6E9G3"
+  },
+  "outputs": {
+    "parts/Slide_Spacer.SLDPRT": "b21c649180c0207c76f594769b2c5c12c933dd8e",
+    "stl/Slide_Spacer.STL": "f60ad201076114194be34fe8b14c231dc6100b6b"
+  }
+}
