@@ -99,6 +99,23 @@ python build_roller.py
 python build_mount.py
 ```
 
+### In Tertius
+
+`tertius-project/` is the same design in Build123D for
+[Tertius](https://tertius.gainengineering.com.au), ported module by module
+from the `build_*.py` scripts (fabrication drawings not ported yet). It
+reads the same `specs/` files: run `tools/sync_specs.py` after changing
+one. Push and compile it with:
+
+```
+python3 tools/sync_specs.py
+python3 tools/tertius_client.py compile dincase tertius-project
+```
+
+`TERTIUS_USER` / `TERTIUS_PASSWORD` select the account (default demo).
+In `design.py`, `SHOW` picks one assembly and `CHECK = True` runs the
+interference checks.
+
 Change a part by editing its file in `specs/`; that gives it a new part
 number. Release a revision with:
 
