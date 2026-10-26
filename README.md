@@ -5,6 +5,11 @@ case on, slide it back, and it locks. Built for tradies, especially
 sparkies, who keep dozens of small components in cases in a van, ute or
 workshop.
 
+<p align="center">
+  <img src="images/dincase-on-wall.jpg" width="420"
+       alt="A parts case hung on a workshop wall on a dincase steel mounting angle">
+</p>
+
 Compatible with RolaCase and other frames' cases that use the same
 side lock track (370 x 370 mm footprint).
 
@@ -98,6 +103,23 @@ pip install -r requirements.txt
 python build_roller.py
 python build_mount.py
 ```
+
+### In Tertius
+
+`tertius-project/` is the same design in Build123D for
+[Tertius](https://tertius.gainengineering.com.au), ported module by module
+from the `build_*.py` scripts (fabrication drawings not ported yet). It
+reads the same `specs/` files: run `tools/sync_specs.py` after changing
+one. Push and compile it with:
+
+```
+python3 tools/sync_specs.py
+python3 tools/tertius_client.py compile dincase tertius-project
+```
+
+`TERTIUS_USER` / `TERTIUS_PASSWORD` select the account (default demo).
+In `design.py`, `SHOW` picks one assembly and `CHECK = True` runs the
+interference checks.
 
 Change a part by editing its file in `specs/`; that gives it a new part
 number. Release a revision with:
