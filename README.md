@@ -5,6 +5,11 @@ case on, slide it back, and it locks. Built for tradies, especially
 sparkies, who keep dozens of small components in cases in a van, ute or
 workshop.
 
+<p align="center">
+  <img src="images/dincase-on-wall.jpg" width="420"
+       alt="A parts case hung on a workshop wall on a dincase steel mounting angle">
+</p>
+
 Compatible with RolaCase and other frames' cases that use the same
 side lock track (370 x 370 mm footprint).
 
