@@ -22,6 +22,7 @@ to Z up, front towards -Y.
 import build123d as bd
 
 import case
+import drawings
 import mount
 import roller
 import shelf_rail
@@ -38,6 +39,7 @@ parts = {"roller": roller.build_roller(), "spacer": roller.build_spacer(),
 parts.update(shelf_rail.build())
 parts.update(slide.build())
 case_parts = case.build()
+drawings.declare(parts)          # fabrication drawings (Tertius drafting)
 
 assemblies = {
     "RolaCase_Assembly": (case_parts, ()),
